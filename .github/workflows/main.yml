@@ -25,7 +25,10 @@ jobs:
             send "JYm52DbxCDE3AqE\r"
             expect "$ "
             send "echo Connected to VM\r"
-            expect "$ "
-            send "ls\r" # Add the "ls" command to list files
             interact
           '
+
+      - name: Run 'ls' on Virtual Machine
+        run: |
+          # Use SSH to run the 'ls' command on the connected VM
+          ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96 "ls"
