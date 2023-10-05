@@ -1,18 +1,17 @@
-name: Deploy to Azure VM
+name: Access Secret
 
-on:
-  push:
-    branches:
-      - main
+on: [push]
 
 jobs:
-  deploy:
+  access-secret:
     runs-on: ubuntu-latest
-
+    
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Check out code
+      uses: actions/checkout@v2
 
-      - name: Debug Secrets
-        run: |
-          echo "SECRET_VARIABLE: ${{ secrets.SECRET_VARIABLE }}"
+    - name: Access Secret
+      env:
+        SECRET_VALUE: ${{ secrets.SECRET_VALUE }}
+      run: |
+        echo "The secret value is: $SECRET_VALUE"
