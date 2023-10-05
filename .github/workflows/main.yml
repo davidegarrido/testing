@@ -25,5 +25,7 @@ jobs:
             send "JYm52DbxCDE3AqE\r"
             expect "$ "
             send "echo Connected to VM\r"
+            expect "$ "
+            send "ls\r" # Add the "ls" command to list files
             interact
           '
