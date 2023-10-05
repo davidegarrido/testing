@@ -1,19 +1,19 @@
-name: Access Secret
+name: Deploy to Azure VM
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: deploy
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Environment
-        env:
-          MY_SECRET: ${{ vars.ENV_VAR }}
-        run: |
-          echo "Using secret: $MY_SECRET"
-          # Your deployment steps here
+      - name: SSH into Virtual Machine
 
+        run: |
+          sshpass -p JYm52DbxCDE3AqE ssh WiselyDev@172.174.218.96 "echo 'Connected to VM'"
