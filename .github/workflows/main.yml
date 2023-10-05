@@ -8,14 +8,28 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: deploy
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Deploy to Azure VM
+      - name: Install expect
+        run: sudo apt-get install -y expect
+
+      - name: SSH into Virtual Machine
         run: |
-          ssh -v -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_IP_ADDRESS }}
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          # Use the expect command to automate SSH login with a password
+          expect -c '
+            spawn ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96
+            expect "password:"
+            send "JYm52DbxCDE3AqE\r"
+            expect "$ "
+            send "cd ws-pymecopilot-sw-mockserver\r"
+            expect "$ "
+            send "ls\r"
+            expect "$ "
+            send "git status\r"
+            expect "$ "
+            send "echo Connected to VM\r"
+            interact
+          '
