@@ -13,6 +13,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install expect
+        run: sudo apt-get install -y expect
+
       - name: SSH into Virtual Machine
         run: |
-          echo 'JYm52DbxCDE3AqE' | ssh WiselyDev@172.174.218.96
+          # Use the expect command to automate SSH login with a password
+          expect -c '
+            spawn ssh WiselyDev@172.174.218.96
+            expect "password:"
+            send "JYm52DbxCDE3AqE\r"
+            expect "$ "
+            send "echo Connected to VM\r"
+            interact
+          '
