@@ -15,4 +15,4 @@ jobs:
 
       - name: Debug Secrets
         run: |
-          echo "SECRET_VARIABLE: ${{ secrets.SECRET_VARIABLE }}"
+          echo "SECRET_VARIABLE: ${{ secrets.deploy.SECRET_VARIABLE }}"
