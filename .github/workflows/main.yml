@@ -21,5 +21,4 @@ jobs:
           sshpass -p "JYm52DbxCDE3AqE" ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96 "cd ws-pymecopilot-sw-mockserver && \
             ls && \
             git status && \
-            pm2 restart mockserver \
-            echo Connected to VM"
+            pm2 stop mockserver"
