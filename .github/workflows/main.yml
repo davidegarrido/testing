@@ -17,6 +17,7 @@ jobs:
         run: sudo apt-get install -y expect
 
       - name: SSH into Virtual Machine
+        id: ssh-vm
         run: |
           # Use the expect command to automate SSH login with a password
           expect -c '
@@ -27,3 +28,13 @@ jobs:
             send "echo Connected to VM\r"
             interact
           '
+
+      - name: Check SSH status
+        run: |
+          if [[ "${{ steps.ssh-vm.outcome }}" == "success" ]]; then
+            echo "Successfully connected to VM."
+            # Add your deployment steps here
+          else
+            echo "Failed to connect to VM."
+            exit 1
+          fi
