@@ -21,7 +21,7 @@ jobs:
 
       - name: SSH into Virtual Machine
         run: |
-          ssh -i ~/.ssh/id_rsa \
+          ssh -v -i ~/.ssh/id_rsa \
             -o StrictHostKeyChecking=no \
             WiselyDev@172.174.218.96 "\
             cd ws-pymecopilot-sw-mockserver && \
