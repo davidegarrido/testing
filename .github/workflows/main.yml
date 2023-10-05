@@ -5,7 +5,7 @@ on: [push]
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: deploy
+    environment: newenv
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
