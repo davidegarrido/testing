@@ -28,6 +28,8 @@ jobs:
             expect "$ "
             send "ls\r"
             expect "$ "
+            send "git status\r"
+            expect "$ "
             send "echo Connected to VM\r"
             interact
           '
