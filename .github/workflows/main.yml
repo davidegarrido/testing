@@ -3,15 +3,16 @@ name: Access Secret
 on: [push]
 
 jobs:
-  access-secret:
+  deploy:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Check out code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Access Secret
-      env:
-        SECRET_VALUE: ${{ env.SECRET_VALUE }}
-      run: |
-        echo "The secret value is: $SECRET_VALUE"
+      - name: Deploy to Environment
+        env:
+          MY_SECRET: ${{ secrets.SECRET_VARIABLE }}
+        run: |
+          echo "Using secret: $MY_SECRET"
+          # Your deployment steps here
+
