@@ -12,6 +12,6 @@ jobs:
 
     - name: Access Secret
       env:
-        SECRET_VALUE: ${{ secrets.SECRET_VALUE }}
+        SECRET_VALUE: ${{ deploy.SECRET_VALUE }}
       run: |
         echo "The secret value is: $SECRET_VALUE"
