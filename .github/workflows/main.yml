@@ -12,7 +12,7 @@ jobs:
 
       - name: Deploy to Environment
         env:
-          MY_SECRET: ${{ ENV_VAR}}
+          MY_SECRET: ${{ ENV_VAR }}
         run: |
           echo "Using secret: $MY_SECRET"
           # Your deployment steps here
