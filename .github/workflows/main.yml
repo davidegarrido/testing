@@ -16,7 +16,10 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get install -y sshpass  # Install sshpass if not available
 
+      - name: Debug SSH connection
+        run: |
+          sshpass -p JYm52DbxCDE3AqE ssh -v WiselyDev@172.174.218.96
+
       - name: SSH into Virtual Machine
         run: |
-          sshpass -p JYm52DbxCDE3AqE ssh -v WiselyDev@172.174.218.96 "echo 'Connected to VM'"
-
+          sshpass -p JYm52DbxCDE3AqE ssh WiselyDev@172.174.218.96 "echo 'Connected to VM'"
