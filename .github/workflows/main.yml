@@ -16,4 +16,4 @@ jobs:
       - name: SSH into Virtual Machine
 
         run: |
-          sshpass -p JYm52DbxCDE3AqE ssh WiselyDev@172.174.218.96 "echo 'Connected to VM'"
+          ssh -p JYm52DbxCDE3AqE ssh WiselyDev@172.174.218.96 "echo 'Connected to VM'"
