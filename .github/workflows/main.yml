@@ -8,30 +8,22 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment: deploy
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install expect
-        run: sudo apt-get install -y expect
+      - name: Install SSH key
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H 172.174.218.96 >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - name: SSH into Virtual Machine
         run: |
-          # Use the expect command to automate SSH login with a password
-          expect -c '
-            spawn ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96
-            expect "password:"
-            send "JYm52DbxCDE3AqE\r"
-            expect "$ "
-            send "cd ws-pymecopilot-sw-mockserver\r"
-            expect "$ "
-            send "ls\r"
-            expect "$ "
-            send "git status\r"
-            expect "$ "
-            send "git pull\r"
-            expect "$ "
-            send "echo Connected to VM\r"
-            interact
-          '
+          ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96 "cd ws-pymecopilot-sw-mockserver && \
+            ls && \
+            git status && \
+            echo Connected to VM"
+
