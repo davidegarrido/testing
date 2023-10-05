@@ -24,7 +24,7 @@ jobs:
             expect "password:"
             send "JYm52DbxCDE3AqE\r"
             expect "$ "
-            send "ls\r"
+            send "cd ws-pymecopilot-sw-mockserver"
             expect "$ "
             send "echo Connected to VM\r"
             interact
