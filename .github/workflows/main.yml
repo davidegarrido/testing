@@ -20,7 +20,7 @@ jobs:
         run: |
           # Use the expect command to automate SSH login with a password
           expect -c '
-            spawn ssh WiselyDev@172.174.218.96
+            spawn ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96
             expect "$ "
             send "ls\r" # Add the ls command to check the current directory
             expect "$ "
