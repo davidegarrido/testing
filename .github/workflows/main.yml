@@ -22,11 +22,8 @@ jobs:
           expect -c '
             spawn ssh WiselyDev@172.174.218.96
             expect "$ "
+            send "ls\r" # Add the ls command to check the current directory
+            expect "$ "
             send "echo Connected to VM\r"
             interact
           '
-
-      - name: Change directory to project directory
-        run: ls
-      
-      # Add additional steps for your deployment process here
