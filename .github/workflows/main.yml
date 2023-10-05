@@ -36,5 +36,7 @@ jobs:
 
       - name: Update Repository on Virtual Machine
         run: |
+          eval $(ssh-agent -s)
+          ssh-add ~/.ssh/id_rsa
           ssh WiselyDev@172.174.218.96
 
