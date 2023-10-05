@@ -27,6 +27,6 @@ jobs:
           '
 
       - name: Change directory to project directory
-        run: cd ws-pymecopilot-sw-mockserver/
+        run: ls
       
       # Add additional steps for your deployment process here
