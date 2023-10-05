@@ -8,22 +8,17 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: deploy
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install SSH key
-        run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -H 172.174.218.96 >> ~/.ssh/known_hosts
-          chmod 644 ~/.ssh/known_hosts
+      - name: Install sshpass
+        run: sudo apt-get install -y sshpass
 
       - name: SSH into Virtual Machine
         run: |
-          ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96 "cd ws-pymecopilot-sw-mockserver && \
+          sshpass -p "JYm52DbxCDE3AqE" ssh -o StrictHostKeyChecking=no WiselyDev@172.174.218.96 "cd ws-pymecopilot-sw-mockserver && \
             ls && \
             git status && \
             echo Connected to VM"
-
