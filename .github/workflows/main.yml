@@ -24,7 +24,7 @@ jobs:
             expect "password:"
             send "JYm52DbxCDE3AqE\r"
             expect "$ "
-            send "ls\r"  # Add the ls command here
+            send "ls\r"
             expect "$ "
             send "echo Connected to VM\r"
             interact
