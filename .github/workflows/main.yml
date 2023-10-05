@@ -12,9 +12,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Install sshpass
-        run: sudo apt-get install -y sshpass  # Install sshpass if not available
         
       - name: SSH into Virtual Machine
         run: |
