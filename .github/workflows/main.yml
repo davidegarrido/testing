@@ -33,3 +33,8 @@ jobs:
             send "echo Connected to VM\r"
             interact
           '
+
+      - name: Update Repository on Virtual Machine
+        run: |
+          ssh WiselyDev@172.174.218.96
+
