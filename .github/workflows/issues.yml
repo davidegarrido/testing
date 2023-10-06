@@ -20,12 +20,3 @@ jobs:
           echo "Issue title: $ISSUE_TITLE"
           echo "::set-output name=issue_title::$ISSUE_TITLE"
 
-      - name: Create Branch
-        id: create-branch
-        run: |
-          BRANCH_NAME="issue/$ISSUE_TITLE"
-          git checkout -b $BRANCH_NAME
-          git push origin $BRANCH_NAME || echo "Error: Failed to push branch"
-
-      - name: Set Branch Name as Output
-        run: echo "branch_name=${BRANCH_NAME}" >> $GITHUB_ENV
