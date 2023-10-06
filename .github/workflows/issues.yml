@@ -15,10 +15,11 @@ jobs:
 
       - name: Create Branch
         id: create-branch
-        run: |
-          ISSUE_NUMBER=$(jq -r .issue.number $GITHUB_EVENT_PATH)
-          BRANCH_NAME="issue-$ISSUE_NUMBER"
-          git checkout -b "$BRANCH_NAME"
-          git push origin "$BRANCH_NAME"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          run: |
+            ISSUE_NUMBER=$(jq -r .issue.number $GITHUB_EVENT_PATH)
+            BRANCH_NAME="issue-$ISSUE_NUMBER"
+            git checkout -b "$BRANCH_NAME"
+            git push origin "$BRANCH_NAME"
+
