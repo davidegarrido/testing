@@ -1,0 +1,26 @@
+name: Create Branch for New Issue
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  create-branch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Create Branch
+        run: |
+          # Extract the issue title and replace spaces with hyphens
+          ISSUE_TITLE=$(echo "${{ github.event.issue.title }}" | tr ' ' '-')
+          
+          # Create a new branch with the issue title
+          git checkout -b "${ISSUE_TITLE}"
+          git push origin "${ISSUE_TITLE}"
+
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
