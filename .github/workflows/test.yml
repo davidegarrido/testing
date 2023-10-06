@@ -1,20 +1,24 @@
 name: List GitHub Projects
 on:
-  workflow_dispatch:  # Trigger manually
+  workflow_dispatch:
 
 jobs:
   list-projects:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
+      - name: Checkout code
         uses: actions/checkout@v2
-      
-      - name: List GitHub Projects
+
+      - name: List Projects
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Fetch the list of projects using GitHub API
-          PROJECTS=$(curl -s -H "Accept: application/vnd.github.inertia-preview+json" \
-            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/${{ github.repository }}/projects)
-          
-          # Print the list of project names
+          # Fetch the list of projects using the GitHub API
+          PROJECTS=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+            "https://api.github.com/repos/${{ github.repository }}/projects")
+
+          # Display the list of projects in the workflow log
+          echo "List of GitHub Projects in the repository:"
           echo "$PROJECTS" | jq -r '.[].name'
+
+
