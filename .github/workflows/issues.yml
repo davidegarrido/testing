@@ -16,7 +16,8 @@ jobs:
       - name: Create Branch
         run: |
           ISSUE_NUMBER=$(jq -r .issue.number $GITHUB_EVENT_PATH)
-          BRANCH_NAME="issue-$ISSUE_NUMBER"
+          ISSUE_TITLE=$(jq -r .issue.title $GITHUB_EVENT_PATH)
+          BRANCH_NAME="${ISSUE_TITLE}-issue-$ISSUE_NUMBER"
           git checkout -b "$BRANCH_NAME"
           git push origin "$BRANCH_NAME"
         env:
