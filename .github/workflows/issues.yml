@@ -19,7 +19,7 @@ jobs:
           ISSUE_TITLE=$(jq -r .issue.title $GITHUB_EVENT_PATH)
           
           # Remove spaces and replace with hyphens
-          BRANCH_NAME="name-of-the-issue-${ISSUE_TITLE// /-}-issue-$ISSUE_NUMBER"
+          BRANCH_NAME="${ISSUE_TITLE// /-}-issue-$ISSUE_NUMBER"
           
           git checkout -b "$BRANCH_NAME"
           git push origin "$BRANCH_NAME"
