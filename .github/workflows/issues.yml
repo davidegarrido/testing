@@ -29,6 +29,3 @@ jobs:
 
       - name: Set Branch Name as Output
         run: echo "branch_name=${BRANCH_NAME}" >> $GITHUB_ENV
-
-      - name: Check Branch Name Output
-        run: echo "Branch name: ${{ env.branch_name }}"
