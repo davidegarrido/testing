@@ -21,6 +21,15 @@ jobs:
           echo "Issue Number: $ISSUE_NUMBER"
           echo "Repository: $REPO_OWNER/$REPO_NAME"
 
+      - name: Debug - List Projects
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PROJECTS=$(curl -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/projects")
+          echo "Projects:"
+          echo "$PROJECTS"
+
       - name: Add Issue to Default Project
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
