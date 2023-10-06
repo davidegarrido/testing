@@ -19,7 +19,7 @@ jobs:
 
       - name: Update VM project
         run: |
-          sshpass -p "JYm52DbxCDE3AqE" ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_IP_ADDRESS }} "cd ws-pymecopilot-sw-mockserver && \
+          sshpass -p JYm52DbxCDE3AqE ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_IP_ADDRESS }} "cd ws-pymecopilot-sw-mockserver && \
             ls && \
             git status && \
             git pull && \
