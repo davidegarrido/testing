@@ -13,16 +13,22 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Extract Issue Title
+        id: extract-title
+        run: |
+          ISSUE_TITLE=$(jq -r .issue.title $GITHUB_EVENT_PATH)
+          echo "Issue title: $ISSUE_TITLE"
+          echo "::set-output name=issue_title::$ISSUE_TITLE"
+
       - name: Create Branch
         id: create-branch
         run: |
-          # Extract the issue title and use it as the branch name
-          ISSUE_TITLE=$(jq -r .issue.title $GITHUB_EVENT_PATH)
           BRANCH_NAME="issue/$ISSUE_TITLE"
-          
-          # Create the new branch
           git checkout -b $BRANCH_NAME
-          git push origin $BRANCH_NAME
+          git push origin $BRANCH_NAME || echo "Error: Failed to push branch"
 
       - name: Set Branch Name as Output
         run: echo "branch_name=${BRANCH_NAME}" >> $GITHUB_ENV
+
+      - name: Check Branch Name Output
+        run: echo "Branch name: ${{ env.branch_name }}"
