@@ -1,0 +1,31 @@
+name: Add Issue to GitHub Project
+
+on:
+  issues:
+    types:
+      - opened
+
+jobs:
+  add-to-project:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Get Issue Information
+        run: |
+          ISSUE_NUMBER=${{ github.event.issue.number }}
+          REPO_OWNER=${{ github.event.repository.owner.login }}
+          REPO_NAME=${{ github.event.repository.name }}
+
+          echo "Issue Number: $ISSUE_NUMBER"
+          echo "Repository: $REPO_OWNER/$REPO_NAME"
+
+      - name: Add Issue to Project
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -X POST -H "Authorization: token $GH_TOKEN" \
+          -H "Accept: application/vnd.github.inertia-preview+json" \
+          -d "{\"content_id\": $ISSUE_NUMBER, \"content_type\": \"Issue\"}" \
+          "https://api.github.com/projects/PROJECT_ID/columns/COLUMN_ID/cards"
