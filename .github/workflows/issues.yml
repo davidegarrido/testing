@@ -14,11 +14,10 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Create Branch
-        id: create-branch
-        with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ISSUE_NUMBER=$(jq -r .issue.number $GITHUB_EVENT_PATH)
           BRANCH_NAME="issue-$ISSUE_NUMBER"
           git checkout -b "$BRANCH_NAME"
           git push origin "$BRANCH_NAME"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
