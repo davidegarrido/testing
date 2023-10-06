@@ -1,4 +1,4 @@
-name: Create Branch for New Issue
+name: Create Branch on New Issue
 
 on:
   issues:
@@ -10,17 +10,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out code
+      - name: Checkout Repository
         uses: actions/checkout@v2
 
       - name: Create Branch
+        id: create-branch
         run: |
-          # Extract the issue title and replace spaces with hyphens
-          ISSUE_TITLE=$(echo "${{ github.event.issue.title }}" | tr ' ' '-')
+          # Extract the issue title and use it as the branch name
+          ISSUE_TITLE=$(jq -r .issue.title $GITHUB_EVENT_PATH)
+          BRANCH_NAME="issue/$ISSUE_TITLE"
           
-          # Create a new branch with the issue title
-          git checkout -b "${ISSUE_TITLE}"
-          git push origin "${ISSUE_TITLE}"
+          # Create the new branch
+          git checkout -b $BRANCH_NAME
+          git push origin $BRANCH_NAME
 
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set Branch Name as Output
+        run: echo "branch_name=${BRANCH_NAME}" >> $GITHUB_ENV
