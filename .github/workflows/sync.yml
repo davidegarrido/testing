@@ -25,14 +25,22 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          PROJECT_ID=$(curl -H "Authorization: token $GH_TOKEN" \
-            "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/projects" | jq '.[0].id')
+          DEFAULT_PROJECT_URL=$(curl -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/projects" | jq -r 'map(select(.name == "Projects"))[0].url')
 
-          if [ -n "$PROJECT_ID" ]; then
-            curl -X POST -H "Authorization: token $GH_TOKEN" \
-              -H "Accept: application/vnd.github.inertia-preview+json" \
-              -d "{\"content_id\": $ISSUE_NUMBER, \"content_type\": \"Issue\"}" \
-              "https://api.github.com/projects/$PROJECT_ID/columns/COLUMN_ID/cards"
+          if [ -n "$DEFAULT_PROJECT_URL" ]; then
+            PROJECT_ID=$(echo "$DEFAULT_PROJECT_URL" | awk -F'/' '{print $(NF-1)}')
+            COLUMN_ID=$(curl -H "Authorization: token $GH_TOKEN" \
+              "https://api.github.com/projects/$PROJECT_ID/columns" | jq '.[0].id')
+
+            if [ -n "$COLUMN_ID" ]; then
+              curl -X POST -H "Authorization: token $GH_TOKEN" \
+                -H "Accept: application/vnd.github.inertia-preview+json" \
+                -d "{\"content_id\": $ISSUE_NUMBER, \"content_type\": \"Issue\"}" \
+                "https://api.github.com/projects/$PROJECT_ID/columns/$COLUMN_ID/cards"
+            else
+              echo "No columns found in the default project."
+            fi
           else
             echo "No default project found for the repository."
           fi
