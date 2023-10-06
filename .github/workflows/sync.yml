@@ -1,4 +1,4 @@
-name: Add Issue to GitHub Project
+name: Add Issue to Default GitHub Project
 
 on:
   issues:
@@ -21,11 +21,18 @@ jobs:
           echo "Issue Number: $ISSUE_NUMBER"
           echo "Repository: $REPO_OWNER/$REPO_NAME"
 
-      - name: Add Issue to Project
+      - name: Add Issue to Default Project
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          curl -X POST -H "Authorization: token $GH_TOKEN" \
-          -H "Accept: application/vnd.github.inertia-preview+json" \
-          -d "{\"content_id\": $ISSUE_NUMBER, \"content_type\": \"Issue\"}" \
-          "https://api.github.com/projects/PROJECT_ID/columns/COLUMN_ID/cards"
+          PROJECT_ID=$(curl -H "Authorization: token $GH_TOKEN" \
+            "https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/projects" | jq '.[0].id')
+
+          if [ -n "$PROJECT_ID" ]; then
+            curl -X POST -H "Authorization: token $GH_TOKEN" \
+              -H "Accept: application/vnd.github.inertia-preview+json" \
+              -d "{\"content_id\": $ISSUE_NUMBER, \"content_type\": \"Issue\"}" \
+              "https://api.github.com/projects/$PROJECT_ID/columns/COLUMN_ID/cards"
+          else
+            echo "No default project found for the repository."
+          fi
